@@ -15,13 +15,15 @@ STEP 4: Switch databases into the poetry database:
 ====================================================================================================================================
 use enlightenment;
 
-STEP 5: Create a user with read/write privileges in the enlightenment database.
+STEP 5: Create a user with read/write privileges in the enlightenment database. Then initialize the data.
 ====================================================================================================================================
 db.createUser({
 	user: "test",
 	pwd: "hunter2",
 	roles: [ { role: "readWrite", db: "enlightenment" } ]
 });
+
+NOTE: SEE db-init to initialize data, then exit mongo shell after
 
 STEP 6: Set the environment variables in Windows
 ====================================================================================================================================
