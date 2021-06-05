@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const fs = require('fs');
 
 //const user = require('../models/user');
 const { validateAgainstSchema } = require('../lib/validation');
@@ -9,6 +10,11 @@ module.exports = router;
 const {
     getUserByUsername,
 } = require('../models/user');
+
+const {
+    MusicSchema,
+    uploadMusic,
+} = require("../models/musicModel");
 
 const fileTypes = {
     "audio/mpeg": "mp3"
@@ -34,8 +40,16 @@ const upload = multer({
 router.post("/", optionalAuthentication, upload.single("music"), async (req, res, next) => {
     try {
         const getInfo = await getUserByUsername(req.username);
-        if (req.username && getInfo){
-            res.status(200).send();
+        if (req.username && getInfo && validateAgainstSchema(req.body, MusicSchema)){
+            const id = await uploadMusic(req, req.username);
+            await fs.unlink(req.file.path, (err) => {
+                if (err){
+                    throw err;
+                }
+            });
+            res.status(200).send({
+                id: id,
+            });
         }
         else{
             res.status(404).send({
