@@ -3,7 +3,7 @@ const fs = require('fs');
 
 //const user = require('../models/user');
 const { validateAgainstSchema } = require('../lib/validation');
-const { optionalAuthentication } = require('../lib/auth');
+const { requireAuthentication } = require('../lib/auth');
 
 module.exports = router;
 
@@ -37,7 +37,7 @@ const upload = multer({
   }
 });
 
-router.post("/", optionalAuthentication, upload.single("music"), async (req, res, next) => {
+router.post("/", requireAuthentication, upload.single("music"), async (req, res, next) => {
     try {
         const getInfo = await getUserByUsername(req.username);
         if (req.username && getInfo && validateAgainstSchema(req.body, MusicSchema)){
