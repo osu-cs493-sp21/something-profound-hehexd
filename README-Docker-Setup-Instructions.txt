@@ -23,7 +23,7 @@ db.createUser({
 	roles: [ { role: "readWrite", db: "enlightenment" } ]
 });
 
-NOTE: SEE db-init to initialize data, then exit mongo shell after
+NOTE: SEE data/testdata.txt to initialize data, then exit mongo shell after
 
 STEP 6: Set the environment variables in Windows
 ====================================================================================================================================
@@ -33,13 +33,16 @@ set MONGO_USER=test
 set MONGO_PASSWORD=hunter2
 set MONGO_DATABASE=enlightenment
 
-STEP 6 ALTERNATIVE: Set environment variables using bash (May need quotations around the variable values)
+STEP 6 ALTERNATIVE: Set environment variables using bash: 
 ====================================================================================================================================
 export MONGO_HOST=localhost
 export MONGO_PORT=27017
 export MONGO_USER=test
 export MONGO_PASSWORD=hunter2
 export MONGO_DATABASE=enlightenment
+
+ALTERNATIVE WITH NODEMON:
+export MONGO_HOST=localhost && export MONGO_PORT=27017 && export MONGO_USER=test && export MONGO_PASSWORD=hunter2 && export MONGO_DATABASE=enlightenment && nodemon server.js
 
 If by this point you open the docker container and see a server called mongo-server running on port 27017 you have done well.
 Run the server using:
