@@ -8,7 +8,7 @@ docker run -d --name mongo-server -p 27017:27017 -v mongo-vol:/data/db -e MONGO_
 
 STEP 3: Enter the following command to enter into the mongo shell with appropriate credentials
 ====================================================================================================================================
-docker run -it -v mongo-vol --network mongo-net mongo mongo --host mongo-server --username root --password hunter2 --authenticationDatabase admin
+docker run --rm -it -v mongo-vol --network mongo-net mongo mongo --host mongo-server --username root --password hunter2 --authenticationDatabase admin
 
 
 STEP 4: Switch databases into the poetry database:
