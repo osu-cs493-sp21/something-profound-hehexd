@@ -5,6 +5,7 @@ const router = require('express').Router();
 //poems
 //quotes
 //music
+router.use('/music', require('./music'));
 //users
 router.use('/users', require('./users'));
 
