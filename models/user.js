@@ -15,7 +15,6 @@ const UserSchema = { //users will log in with their username which is unique
 }
 exports.UserSchema = UserSchema;
 
-
 //REQUIRES TESTING
 async function insertNewUser(user) {
     const db = getDbReference();
