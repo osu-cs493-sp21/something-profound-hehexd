@@ -1,14 +1,14 @@
 STEP 1: Create a network for Mongo:
 ====================================================================================================================================
-docker network create mongo-net2
+docker network create mongo-net
 
 STEP 2: Create a container for the mongo server
 ====================================================================================================================================
-docker run -d --name mongo-server2 -p 27017:27017 -v mongo-vol:/data/db -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=hunter2 --network mongo-net2 mongo
+docker run -d --name mongo-server -p 27017:27017 -v mongo-vol:/data/db -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=hunter2 --network mongo-net mongo
 
 STEP 3: Enter the following command to enter into the mongo shell with appropriate credentials
 ====================================================================================================================================
-docker run -it -v mongo-vol2 --network mongo-net2 mongo mongo --host mongo-server2 --username root --password hunter2 --authenticationDatabase admin
+docker run -it -v mongo-vol --network mongo-net mongo mongo --host mongo-server --username root --password hunter2 --authenticationDatabase admin
 
 
 STEP 4: Switch databases into the poetry database:

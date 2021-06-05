@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "4dab9860-9889-41e0-a623-e05f3edd2b75",
+		"name": "Final Project Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Administrator (Pass)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Kenobi\",\r\n    \"display_name\": \"TheNegotiator\",\r\n    \"password\": \"thehighground\",\r\n    \"admin\": false,\r\n    \"bio\": \"An elegant weapon from a more civilized age.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						""
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "administrator",
+							"disabled": true
+						},
+						{
+							"key": "display_name",
+							"value": "order66",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "adminpass",
+							"disabled": true
+						},
+						{
+							"key": "bio",
+							"value": "Test administrator for the API",
+							"disabled": true
+						},
+						{
+							"key": "admin",
+							"value": "true",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login (Return JWT)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Anakin_Skywalker\",\r\n    \"password\": \"ihatesand69\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login (Invalid Credentials)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

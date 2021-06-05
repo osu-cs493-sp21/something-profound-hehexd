@@ -1,0 +1,38 @@
+To populate your local device with data to use, just copy the following into a mongo shell.
+
+use enlightenment;
+Note:
+The plaintext passwords are as follows
+Username: Anakin_Skywalker
+Password: ihatesand69
+
+username: administrator
+password: adminpass
+
+username: Kenobi
+password: thehighground
+
+db.users.insertMany([
+    {
+	    "username": "Anakin_Skywalker",
+        "display_name": "Vader",
+        "password": "$2a$08$qdoTI0CRW6x7dkz851do3uPD.zk6vJhydPIeUSxmfKCDn3Flltnb6",
+        "admin": true,
+        "bio": "I HAVE BROUGHT PEACE, FREEDOM, JUSTICE AND SECURITY TO MY NEW EMPIRE."
+	},
+    {
+        "username": "administrator",
+        "display_name": "testAdministrator",
+        "password": "$2a$08$jAGFpJt4FquTc1Bu2fZk7uCnFi1TPLO7.697gMn7MaJ8W6dTHtA6i",
+        "admin": true,
+        "bio": "Test Administrator for the API Prototype"
+    },
+    {
+        "username": "Kenobi",
+        "display_name": "TheNegotiator",
+        "password": "$2a$08$ZtDC4r9PqMSEJehycV71ZO/m4gl6UTT1SGvrp7zncLk2ye95OO8hG",
+        "admin": false,
+        "bio": "An elegant weapon from a more civilized age."
+    }
+]);
+	

@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const { connectToDB } = require('./lib/mongo');
 
 const api = require('./api'); //hook to endpoints written in the api folder
 
@@ -28,6 +29,8 @@ app.use('*', function (req, res, next) {
   });
 });
 
-app.listen(port, function () {
-    console.log("== Server is running on port", port);
+connectToDB(() => {
+    app.listen(port, () => {
+        console.log("== Server is listening on port:", port);
+    });
 });
