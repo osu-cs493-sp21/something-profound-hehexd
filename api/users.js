@@ -8,7 +8,8 @@ const {
     UserSchema,
     insertNewUser,
     validateUser,
-    getAdminStatus
+    getAdminStatus,
+    getProfileByUsername
 } = require('../models/user');
 
 module.exports = router;
@@ -70,7 +71,7 @@ router.post('/', optionalAuthentication, async (req, res, next) => {
 
 //LOGIN, UNFINISHED
 router.post('/login', async (req, res, next) => {
-
+    console.log("Login endpoint called");
     //users will log in with their user name. May or may not be different from their display name. Usernames are unique but display names are not.
     if (req.body && req.body.username && req.body.password) {
         try {
@@ -104,31 +105,24 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
-//get user information by ID. This will only show the user's display_name and their bio.
-// MUST FINISH AND TEST
-router.get('/:id', requireAuthentication, async (req, res, next) => {
-    if (req.user !== req.params.id) {
-        res.status(403).send({
-            error: "Unauthorized access to the specified resource"
-        });
-    }
-    else {
-        try {
-            const user = await getLimitedUserById(req.params.id);
-            if (user) {
-                res.status(200).send(user);
-            }
-            else {
-                next();
-            }
-
+//In a front end implementation, I would hook this API endpoint up to return information on the user's profile page probably.
+//This information is publicly available to all.
+router.get('/:username', async (req, res, next) => {
+    console.log("req params username: ", req.params.username);
+    try {
+        const user = await getProfileByUsername(req.params.username); //Should only return the display_name and the bio.
+        if (user) {
+            res.status(200).send(user); //send the bio and the display name to the user.
         }
-        catch (err) {
-            console.error(" -- Error:", err);
-            res.status(500).send({
-                error: "Error fetching user. Try again later."
+        else {
+            res.status(404).send({
+                error: "This profile is not available."
             });
         }
+    }
+    catch (err) {
+        console.error(" -- Error:", err);
+        next();
     }
 });
 
@@ -138,4 +132,6 @@ router.use('*', (err, req, res, next) => {
         error: "An error occurred. Try again later."
     });
 });
+
+
 
