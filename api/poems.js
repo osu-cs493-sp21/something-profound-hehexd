@@ -15,7 +15,7 @@ const {
 
 } =  require('../models/poem');
 
-router.post('/', async(req, res, next) => {
+router.post('/', requireAuthentication, async(req, res, next) => {
 
     console.log("TROLLED")
 
