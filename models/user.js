@@ -81,3 +81,21 @@ async function getAdminStatus(username) {
 }
 
 exports.getAdminStatus = getAdminStatus;
+
+async function getProfileByUsername(username) {
+    const db = getDbReference();
+    const collection = db.collection('users');
+    const count = await collection.find({ username: username }).count();
+    if (count > 0) {
+        const projection = { _id: 0, username: 0, password: 0, admin: 0 }
+        const results = await collection.find({ username: username })
+            .project(projection)
+            .toArray();
+        return results[0];
+    }
+    else {
+        return false;
+    }
+}
+
+exports.getProfileByUsername = getProfileByUsername;
