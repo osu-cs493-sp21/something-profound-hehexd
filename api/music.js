@@ -14,6 +14,7 @@ const {
 const {
     MusicSchema,
     uploadMusic,
+    downloadMusic
 } = require("../models/musicModel");
 
 const fileTypes = {
@@ -63,4 +64,23 @@ router.post("/", requireAuthentication, upload.single("music"), async (req, res,
             error: "Invalid authorization"
         });
     }
-})
+});
+
+router.get("/download/:id", async (req, res, next) => {
+    if (req.params.id){
+        try {
+            downloadMusic(req.params.id);
+            throw "LOL"
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({
+                error: "Server error"
+            });
+        }
+    }
+    else{
+        res.status(404).send({
+            error: "Song not found"
+        });
+    }
+});
