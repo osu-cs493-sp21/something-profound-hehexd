@@ -9,4 +9,6 @@ router.use('/music', require('./music'));
 //users
 router.use('/users', require('./users'));
 
+router.use('/quotes', require('./quotes'));
+
 module.exports = router;
