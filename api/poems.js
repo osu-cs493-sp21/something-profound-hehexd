@@ -12,16 +12,21 @@ const {
 
     PoemSchema,
     insertNewPoem,
+    getPoemPage,
+    getPoemById,
+    getPoemByCategory,
+    updatePoemById,
+    deletePoemById,
+
+
 
 } =  require('../models/poem');
 
-router.post('/', requireAuthentication, async(req, res, next) => {
-
-    console.log("TROLLED")
+//Post a new poem
+router.post('/', async(req, res, next) => {
 
     if(validateAgainstSchema(req.body, PoemSchema)){
 
-        console.log("hehe yup")
         try{
 
             const id = await insertNewPoem(req.body);
@@ -53,3 +58,145 @@ router.post('/', requireAuthentication, async(req, res, next) => {
 
 });
 
+
+//Get all
+router.get('/', async(req, res, next) => {
+
+    try{
+
+        var results = await getPoemPage(parseInt(req.query.page) || 1);
+
+        res.status(200).send(results)
+
+    }catch(error){
+
+        res.status(500).json({
+
+            error: "Error fetching poems, try again later."
+
+        });
+
+        console.log(error);
+
+    }
+
+});
+
+//Get poem by id
+router.get('/:id', async(req, res, next) => {
+
+    try{
+
+        var results =  await getPoemById(req.params.id);
+
+        //console.log(results)
+
+        res.status(200).send(results);
+
+    }catch(error){
+
+        console.error("ERROR: ", err);
+
+        res.status(500).send({
+
+            error: "Error fetching user, try again later"
+            
+        });
+
+    }
+
+});
+
+//Get poem by category
+router.get('/category/:category', async(req, res, next) => {
+
+    try{
+
+        var results =  await getPoemByCategory(req.params.category);
+
+        res.status(200).send(results);
+
+    }catch(error){
+
+        console.error("ERROR: ", error);
+
+        res.status(500).send({
+
+            error: "Error fetching poem with given category, try again later"
+            
+        });
+  
+}
+
+});
+
+
+//Modify poem by id
+router.put('/:id', async(req, res, next) => {
+
+    if(req.body.username == req.username){
+
+        try{
+
+            var results = await updatePoemById(req.params.id, req.body)
+    
+            console.log(results)
+            
+            res.status(200).send(results);
+    
+    
+        }catch(error){
+    
+            console.log(error)
+    
+            res.status(500).send({
+    
+                error: "Error updating user, try again later"
+                
+            });
+    
+        }
+
+    } else {
+
+        res.status(400).send({
+
+            error: "You are not allowed to do that."
+
+        });
+
+    }
+
+});
+
+//Delete  poem by id
+//Checks for admin or authentication
+router.delete('/:id', async(req, res, next) => {
+
+    try{
+
+        var results = await deletePoemById(req.params.id)
+
+        res.status(200).send(results);
+
+    }catch(error){
+
+        res.status(500).send({
+
+            error: "Error deleting user, try again later"
+            
+        });
+
+    }
+
+});
+
+
+//Get Via Elastic Search(idk how to do this)
+router.get('/search/:searchToken', requireAuthentication, async(req, res, next) => {
+
+
+
+
+
+});

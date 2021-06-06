@@ -4,6 +4,7 @@ const { extractValidFields } = require('../lib/validation'); //use extractValidF
 const { getDbReference } = require('../lib/mongo');
 const bcrypt = require('bcryptjs');
 
+
 const PoemSchema = {
 
     author: { require : true },
@@ -32,3 +33,112 @@ async function insertNewPoem(poem) {
 
 
 exports.insertNewPoem = insertNewPoem;
+
+async function getPoemCount(){
+
+    const db = getDbReference();
+
+    const collection = db.collection('poems');
+
+    var count = collection.count();
+
+    return count;
+
+}
+
+async function getPoemPage(page){
+
+    const db = getDbReference();
+
+    const collection = db.collection('poems');
+
+    const count = await getPoemCount();
+    
+    //Figure out how many poems we need to get
+
+    const pageSize = 10;
+    const lastPage = Math.ceil(count / pageSize);
+    page = page > lastPage ? lastPage : page;
+    page = page < 1 ? 1 : page;
+    const offset = (page - 1) * pageSize;
+
+    var query = {}
+    //Get all the poems and limit them by the pagination math
+    results = await collection.find( query )
+
+
+    return results
+
+}
+
+exports.getPoemPage = getPoemPage;
+
+async function getPoemById(id){
+
+    const db = getDbReference();
+
+    const collection = db.collection('poems');
+
+    results = await collection.find({_id: new ObjectId(id)}).toArray();
+
+    //console.log(results[0])
+
+    return results[0]
+
+}
+
+exports.getPoemById = getPoemById;
+
+async function getPoemByCategory(category){
+
+    const db = getDbReference();
+
+    const collection = db.collection('poems');
+
+    results = await collection.find({category: category}).toArray()
+
+    //console.log(results[0])
+    
+    return results[0]
+}
+
+exports.getPoemByCategory = getPoemByCategory;
+
+async function updatePoemById(id, poem){
+
+    const db = getDbReference();
+
+    const collection = db.collection('poems');
+
+    updatedPoem = {$set: extractValidFields(poem , PoemSchema)}
+
+    //console.log(updatedPoem)
+    
+    var query = {_id: new ObjectId(id)}
+
+    results = await collection.updateOne(query, updatedPoem, {upsert: true})
+
+    console.log(results)
+
+    return results[0]
+
+}
+
+exports.updatePoemById = updatePoemById;
+
+async function deletePoemById(id){
+
+    const db = getDbReference();
+
+    const collection = db.collection('poems');
+
+    var query = {_id: new ObjectId(id)}
+
+    results = await collection.remove(query)
+
+    return results
+
+}
+
+exports.deletePoemById = deletePoemById;
+
