@@ -36,3 +36,38 @@ db.users.insertMany([
     }
 ]);
 	
+
+db.poems.insertMany([
+
+    {
+
+    "author" : "Yeah",
+    "uploader" : "DrMario5152",
+    "text": "Whats up guys",
+    "category" : "Dark Comedy",
+    "date" : "6/5"
+
+    },
+
+
+    {
+
+    "author" : "Yeah",
+    "uploader" : "DrMario113",
+    "text": "Whats up my dude",
+    "category" : "Really Dark Comedy",
+    "date" : "6/5"
+
+    },
+
+    {
+
+    "author" : "Yeah",
+    "uploader" : "DrMario525",
+    "text": "Whats up",
+    "category" : "Dark Comedy",
+    "date" : "6/5"
+
+    }
+
+]);
