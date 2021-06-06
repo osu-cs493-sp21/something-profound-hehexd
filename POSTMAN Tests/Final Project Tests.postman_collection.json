@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "039f5cd5-1f48-4c6c-a9e5-17e62dadf2d5",
+		"_postman_id": "5c7108f9-9f70-4e34-98a7-a748bb5abc09",
 		"name": "Final Project Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -126,6 +126,242 @@
 						"users",
 						"login",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quotes Creation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quotes GET ALL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quotes PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\": \"aedan\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Aedan is a SEMI - cool Guy.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/quotes/60bd53466b7d7658c8468313",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes",
+						"60bd53466b7d7658c8468313"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quotes PUT invalid",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\": \"aedan\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Aedan is a SEMI - cool Guy.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/quotes/60bd53466b7d7658c8468313",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes",
+						"60bd53466b7d7658c8468313"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quote by id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quote by id invalid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quotes DELETE",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\": \"aedan\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Aedan is a SEMI - cool Guy.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/quotes/60bd53466b7d7658c8468313",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes",
+						"60bd53466b7d7658c8468313"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Quotes DELETE an already deleted quote",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\": \"aedan\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Aedan is a SEMI - cool Guy.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/quotes/60bd53466b7d7658c8468313",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes",
+						"60bd53466b7d7658c8468313"
 					]
 				}
 			},

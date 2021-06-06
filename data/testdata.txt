@@ -71,3 +71,36 @@ db.poems.insertMany([
     }
 
 ]);
+
+db.quotes.insertMany([
+    {
+	    "author": "Kenobi",
+        "username": "Kenobi",
+        "quote": "ITS OVER ANAKIN, I HAVE THE GROUND",
+        "date": "1/1/1000",
+        "category": "Earth Lovers."
+	},
+    {
+	    "author": "Anakin_Skywalker",
+        "username": "administrator",
+        "quote": "I have the force... of earth.",
+        "date": "1/2/1000",
+        "category": "Earth Lovers."
+	},
+    {
+	    "author": "administrator",
+        "username": "Kenobi",
+        "quote": "Ok guys, I am the administrator and I like the Earth. >:D",
+        "date": "1/3/1000",
+        "category": "Earth Lovers."
+	},
+	    "author": "Kenobi",
+        "username": "administrator",
+        "quote": "I am Kenobi and I speak for the trees.",
+        "date": "1/3/1000",
+        "category": "Earth Lovers."
+	}
+]);
+
+	
+
