@@ -68,10 +68,6 @@ router.get("/download/:id", async (req, res, next) => {
         try {
             await downloadMusic(req.params.id);
             res.status(200).send();
-            //found.on("file", (file) => {
-            //    res.status(200).type(file.metadata.contentType);
-            //}).pipe(res);
-            //res.status(200).send(found);
         } catch (error) {
             console.log(error);
             res.status(500).send({

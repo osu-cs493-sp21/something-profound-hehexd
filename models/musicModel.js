@@ -2,7 +2,6 @@ const { extractValidFields } = require('../lib/validation'); //use extractValidF
 const { getDbReference } = require('../lib/mongo');
 const { GridFSBucket, ObjectId } = require("mongodb");
 const fs = require("fs");
-const GridFSStream = require("gridfs-stream");
 
 //create the schema that we will use for validating the POST request for music.
 const MusicSchema = { //users will log in with their username which is unique
@@ -47,7 +46,6 @@ exports.uploadMusic = uploadMusic;
 async function downloadMusic(id){
     return new Promise(async (resolve, reject) => {
         const db = getDbReference();
-        const gfs = GridFSStream(db, require("mongodb"));
         const bucket = new GridFSBucket(db, {
             bucketName: "music"
         });
@@ -63,24 +61,6 @@ async function downloadMusic(id){
             contentType: info.metadata.contentType,
             path: path,
         });
-
-        //const readstream = gfs.createReadStream({
-        //    //filename: info.metadata.filename,
-        //    _id: new ObjectId(id)
-        //});
-        //return fs.createWriteStream(`./${info.metadata.name}.${fileTypes[info.metadata.contentType]}`);
-        //readstream.on('error', function (err) {
-        //    console.log('An error occurred!', err);
-        //    reject(err);
-        //});
-
-        //readstream.pipe(readstream);
-        //resolve({
-        //    name: info.metadata.name,
-        //    caption: info.metadata.caption,
-        //    username: info.metadata.username,
-        //    contentType: info.metadata.contentType
-        //});
     });
 }
 exports.downloadMusic = downloadMusic;
