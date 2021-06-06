@@ -14,12 +14,9 @@ const {
 const {
     MusicSchema,
     uploadMusic,
-    downloadMusic
+    downloadMusic,
+    fileTypes
 } = require("../models/musicModel");
-
-const fileTypes = {
-    "audio/mpeg": "mp3"
-};
 
 const crypto = require('crypto');
 const multer = require('multer');
@@ -69,8 +66,8 @@ router.post("/", requireAuthentication, upload.single("music"), async (req, res,
 router.get("/download/:id", async (req, res, next) => {
     if (req.params.id){
         try {
-            downloadMusic(req.params.id);
-            throw "LOL"
+            await downloadMusic(req.params.id);
+            res.status(200).send();
         } catch (error) {
             console.log(error);
             res.status(500).send({
