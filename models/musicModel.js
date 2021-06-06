@@ -11,6 +11,11 @@ const MusicSchema = { //users will log in with their username which is unique
 }
 exports.MusicSchema = MusicSchema;
 
+const fileTypes = {
+    "audio/mpeg": "mp3"
+};
+exports.fileTypes = fileTypes;
+
 async function uploadMusic(req, username){
     //by this point the user has been validated already
     return new Promise((resolve, reject) => {
@@ -51,22 +56,31 @@ async function downloadMusic(id){
             .toArray();
         const info = results[0];
 
-        const readstream = gfs.createReadStream({
-            //filename: info.metadata.filename,
-            _id: new ObjectId(id)
-        });
-        readstream.on('error', function (err) {
-            console.log('An error occurred!', err);
-            reject(err);
+        console.log(info._id == id, info._id, id, typeof(info._id), typeof(id));
+        const path = `../data/${info.metadata.name}.${fileTypes[info.metadata.contentType]}`;
+        resolve({
+            pipe: bucket.openDownloadStream(info._id).pipe(fs.createWriteStream(path)),
+            contentType: info.metadata.contentType,
+            path: path,
         });
 
-        readstream.pipe(readstream);
-        resolve({
-            name: info.metadata.name,
-            caption: info.metadata.caption,
-            username: info.metadata.username,
-            contentType: info.metadata.contentType
-        });
+        //const readstream = gfs.createReadStream({
+        //    //filename: info.metadata.filename,
+        //    _id: new ObjectId(id)
+        //});
+        //return fs.createWriteStream(`./${info.metadata.name}.${fileTypes[info.metadata.contentType]}`);
+        //readstream.on('error', function (err) {
+        //    console.log('An error occurred!', err);
+        //    reject(err);
+        //});
+
+        //readstream.pipe(readstream);
+        //resolve({
+        //    name: info.metadata.name,
+        //    caption: info.metadata.caption,
+        //    username: info.metadata.username,
+        //    contentType: info.metadata.contentType
+        //});
     });
 }
 exports.downloadMusic = downloadMusic;
