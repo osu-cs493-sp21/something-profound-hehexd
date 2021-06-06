@@ -23,7 +23,7 @@ const {
 } =  require('../models/poem');
 
 //Post a new poem
-router.post('/', async(req, res, next) => {
+router.post('/', requireAuthentication, async(req, res, next) => {
 
     if(validateAgainstSchema(req.body, PoemSchema)){
 
@@ -59,8 +59,8 @@ router.post('/', async(req, res, next) => {
 });
 
 
-//Get all
-router.get('/', async(req, res, next) => {
+//Get all poems
+router.get('/', requireAuthentication, async(req, res, next) => {
 
     try{
 
@@ -83,7 +83,7 @@ router.get('/', async(req, res, next) => {
 });
 
 //Get poem by id
-router.get('/:id', async(req, res, next) => {
+router.get('/:id', requireAuthentication, async(req, res, next) => {
 
     try{
 
@@ -108,7 +108,7 @@ router.get('/:id', async(req, res, next) => {
 });
 
 //Get poem by category
-router.get('/category/:category', async(req, res, next) => {
+router.get('/category/:category', requireAuthentication, async(req, res, next) => {
 
     try{
 
@@ -132,7 +132,7 @@ router.get('/category/:category', async(req, res, next) => {
 
 
 //Modify poem by id
-router.put('/:id', async(req, res, next) => {
+router.put('/:id', requireAuthentication, async(req, res, next) => {
 
     if(req.body.username == req.username){
 
@@ -171,7 +171,7 @@ router.put('/:id', async(req, res, next) => {
 
 //Delete  poem by id
 //Checks for admin or authentication
-router.delete('/:id', async(req, res, next) => {
+router.delete('/:id', requireAuthentication, async(req, res, next) => {
 
     try{
 

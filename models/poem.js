@@ -40,7 +40,7 @@ async function getPoemCount(){
 
     const collection = db.collection('poems');
 
-    var count = collection.count();
+    var count = collection.countDocuments();
 
     return count;
 
@@ -62,10 +62,10 @@ async function getPoemPage(page){
     page = page < 1 ? 1 : page;
     const offset = (page - 1) * pageSize;
 
-    var query = {}
     //Get all the poems and limit them by the pagination math
-    results = await collection.find( query )
+    results = await collection.find({}).skip(offset).limit(pageSize).toArray()
 
+    //console.log(results)
 
     return results
 
