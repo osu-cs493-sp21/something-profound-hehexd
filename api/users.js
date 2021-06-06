@@ -9,7 +9,9 @@ const {
     insertNewUser,
     validateUser,
     getAdminStatus,
-    getProfileByUsername
+    getProfileByUsername,
+    updateUserInformation,
+    deleteUserByUsername
 } = require('../models/user');
 
 module.exports = router;
@@ -126,12 +128,73 @@ router.get('/:username', async (req, res, next) => {
     }
 });
 
+//endpoint that would be hooked to a user's settings that allows them to update all information except for their username.
+//If we wanted to make it so that users could change their username, we could also do so but require that the username field in
+//all other collections be updated.
+router.put('/:username/settings', requireAuthentication, async (req, res, next) => {
+    console.log("Request body: ", req.body);
+    if (validateAgainstSchema(req.body, UserSchema)) {
+        //the or statement implies that we cannot change the admin status of a user through a PUT request. Security risk.
+        if (req.body.username === req.username && !req.body.admin) {
+            try {
+                const success = updateUserInformation(req.params.username, req.body);
+                if (success) {
+                    res.status(200).send({
+                        message: "Updated information successfully"
+                    });
+                }
+                else {
+                    res.status(404).send({
+                        error: "User does not exist"
+                    });
+                }
+            }
+            catch (err) {
+                res.status(500).send({
+                    error: "Server encountered an error"
+                });
+            }
+        }
+        else {
+            console.log("Admins cannot change their admin status");
+            res.status(400).send({ //in reality this case will 
+                error: "You cannot change your registered username."
+            });
+        }
+    }
+    else {
+        res.status(400).send({
+            error: "Missing fields. Must include `username` `password` `display_name` at minimum"
+        })
+    }
+});
+
+
+//get poems by username
+//get quotes by username
+//get music by username.
+//delete user
+
+router.delete('/:username', requireAuthentication, async (req, res, next) => {
+    if (req.username === req.params.username || getAdminStatus(req.username)) {
+        const result = await deleteUserByUsername(req.params.username);
+        if (result) {
+            res.status(204).send();
+        }
+        else {
+            next();
+        }
+
+    }
+});
+
 router.use('*', (err, req, res, next) => {
     console.error(err);
     res.status(500).send({
         error: "An error occurred. Try again later."
     });
 });
+
 
 
 

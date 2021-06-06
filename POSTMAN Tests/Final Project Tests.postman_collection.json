@@ -108,7 +108,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"raw": "{\r\n    \"username\": \"administaarator\",\r\n    \"password\": \"adminpass\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -126,6 +126,145 @@
 						"users",
 						"login",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET User Bio",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/users/Anakin_Skywalker",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"Anakin_Skywalker"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Music",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBbmFraW5fU2t5d2Fsa2VyIiwiaWF0IjoxNjIyOTI4NTEwLCJleHAiOjE2MjMwMTQ5MTB9.E-pyYJqimQGwGIO0ConwsjteUVp85cABiUdEzs85m0c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "music",
+							"type": "file",
+							"src": "/C:/Users/Shady/Downloads/AMOGUS.mp3"
+						},
+						{
+							"key": "name",
+							"value": "AMOGUS",
+							"type": "text"
+						},
+						{
+							"key": "caption",
+							"value": "sus LOL",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/music",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"music"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User Info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBbmFraW5fU2t5d2Fsa2VyIiwiaWF0IjoxNjIyOTQyNDc4LCJleHAiOjE2MjMwMjg4Nzh9._XgscdHszUIgtmvC0UyTWFP4NMeVclvxzaAJ99SokwE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"display_name\": \"Anakin Skywalker\",\r\n    \"username\": \"Anakin_Skywalker\",\r\n    \"password\": \"ihatesand69\",\r\n    \"bio\": \"I HAVE BROUGHT PEACE, FREEDOM, JUSTICE AND SECURITY TO MY NEW EMPIRE.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/Anakin_Skywalker/settings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"Anakin_Skywalker",
+						"settings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBbmFraW5fU2t5d2Fsa2VyIiwiaWF0IjoxNjIyOTQ1OTU4LCJleHAiOjE2MjMwMzIzNTh9.r88aegCzMSC538S5nSaWCjaN12xoXaWJ0EevglkzLe0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/users/Anakin_Skywalker",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"Anakin_Skywalker"
 					]
 				}
 			},
