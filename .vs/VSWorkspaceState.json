@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\api",
+    "\\data",
+    "\\lib",
+    "\\models"
   ],
+  "SelectedNode": "\\models\\quote.js",
   "PreviewInSolutionExplorer": false
 }
