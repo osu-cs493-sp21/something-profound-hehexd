@@ -57,7 +57,7 @@ async function downloadMusic(id){
         const info = results[0];
 
         console.log(info._id == id, info._id, id, typeof(info._id), typeof(id));
-        const path = `../data/${info.metadata.name}.${fileTypes[info.metadata.contentType]}`;
+        const path = `./data/${info.metadata.name}.${fileTypes[info.metadata.contentType]}`;
         resolve({
             pipe: bucket.openDownloadStream(info._id).pipe(fs.createWriteStream(path)),
             contentType: info.metadata.contentType,
