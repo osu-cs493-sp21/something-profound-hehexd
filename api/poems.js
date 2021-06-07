@@ -18,49 +18,53 @@ const {
     updatePoemById,
     deletePoemById,
 
-
-
 } =  require('../models/poem');
 
 //Post a new poem
 router.post('/', requireAuthentication, async(req, res, next) => {
 
-    if(validateAgainstSchema(req.body, PoemSchema)){
+    if(req.body.username == req.body.uploader){
 
-        try{
+        if(validateAgainstSchema(req.body, PoemSchema)){
 
-            const id = await insertNewPoem(req.body);
-            res.status(201).send({
-
-                _id: id
+            try{
+    
+                const id = await insertNewPoem(req.body);
+                res.status(201).send({
+    
+                    _id: id
+                });
+    
+            }catch(error){
+    
+    
+                console.error(" -- Error", err);
+    
+                res.status(500).send({
+    
+                    error: "Error inserting new Poem. TRY AGAIN  LATER."
+    
+                });
+    
+            }
+    
+        } else {
+    
+            res.status(401).send({
+    
+                error: "Body is invalid"
             });
-
-        }catch(error){
-
-
-            console.error(" -- Error", err);
-
-            res.status(500).send({
-
-                error: "Error inserting new Poem. TRY AGAIN  LATER."
-
-            });
-
         }
-
     } else {
 
-        res.status(401).send({
-
-            error: "Body is invalid"
-        });
+        res.status(404).send({error : "Invalid Authentication"})
     }
 
 });
 
 
 //Get all poems
-router.get('/', requireAuthentication, async(req, res, next) => {
+router.get('/', async(req, res, next) => {
 
     try{
 
@@ -83,7 +87,7 @@ router.get('/', requireAuthentication, async(req, res, next) => {
 });
 
 //Get poem by id
-router.get('/:id', requireAuthentication, async(req, res, next) => {
+router.get('/:id', async(req, res, next) => {
 
     try{
 
@@ -108,7 +112,7 @@ router.get('/:id', requireAuthentication, async(req, res, next) => {
 });
 
 //Get poem by category
-router.get('/category/:category', requireAuthentication, async(req, res, next) => {
+router.get('/category/:category', async(req, res, next) => {
 
     try{
 
