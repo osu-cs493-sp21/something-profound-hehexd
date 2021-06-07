@@ -78,7 +78,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"administrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"raw": "{\r\n    \"username\": \"Kenobi\",\r\n    \"password\": \"thehighground\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -477,7 +477,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzM4MDEsImV4cCI6MTYyMzEyMDIwMX0.PXG-0QNswyynoKNA0xYLF_i94eGuIUmX8mRgAVDeVXU",
 							"type": "string"
 						}
 					]
@@ -485,7 +485,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/quotes/60bd7316afa5d66a3762e229",
+					"raw": "http://localhost:8000/quotes/Kenobi/60bd7316afa5d66a3762e229",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -493,6 +493,7 @@
 					"port": "8000",
 					"path": [
 						"quotes",
+						"Kenobi",
 						"60bd7316afa5d66a3762e229"
 					]
 				}
@@ -525,6 +526,169 @@
 						"quotes",
 						"Kenobi",
 						"60bd8983c58f9d93f424bdb1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST a Poem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzYxNDMsImV4cCI6MTYyMzEyMjU0M30.sJl9Qbd60FgUrL9ktIwAeSmRaDruafyaNEpZz5szV8k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\": \"Angfdsaagfds22\",\r\n    \"uploader\": \"Kenobi\",\r\n    \"text\": \"Because of Obi-Wan?\",\r\n    \"category\": \"Haiku\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/poems/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Poems (Page 1)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Poems (Last Page)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems?page=69",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "69"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Poem by Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems/category/Haiku",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"category",
+						"Haiku"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Poem by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems/60bd912c39e3ae8c84040c39",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"60bd912c39e3ae8c84040c39"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Poem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjIzMDM2NzYwLCJleHAiOjE2MjMxMjMxNjB9.fDmEuL0ahjys9-av5jFXWgT9yWI7eZkau45ixXUKnMk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_id\": \"60bd912c3980c39\",\r\n    \"author\": \"Anakin Skywalker\",\r\n    \"uploader\": \"Kenobi\",\r\n    \"text\": \"Because of Obi-Wan?\",\r\n    \"category\": \"Haikuuuu\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/poems/60bd912c39e3ae8c84040c39",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"60bd912c39e3ae8c84040c39"
 					]
 				}
 			},
