@@ -58,6 +58,7 @@ db.quotes.insertMany([
         "date": "1/3/1000",
         "category": "Earth Lovers."
 	},
+    {
 	    "author": "Kenobi",
         "username": "administrator",
         "quote": "I am Kenobi and I speak for the trees.",

@@ -73,11 +73,7 @@ async function deleteQuoteById(id){
 	const db = getDbReference();
 	const collection = db.collection('quotes');
 	const result = await collection.deleteOne({ _id: new ObjectId(id) }); //deletes one quote with the provided id
-	console.log("result: ", result);
-	//if(result){
-
-	//}
-	console.log("Deleted the quote.");
+	console.log("Deleted the quote.", result.deletedCount);
 	return result.deletedCount;
 }
 exports.deleteQuoteById = deleteQuoteById;

@@ -2,9 +2,10 @@ STEP 1: Create a network for Mongo:
 ====================================================================================================================================
 docker network create mongo-net
 
-STEP 2: Create a container for the mongo server
+STEP 2: Create a container for the mongo server and the Redis server. Note that we would NOT normally want to expose the ports, especially for redis.
 ====================================================================================================================================
 docker run -d --name mongo-server -p 27017:27017 -v mongo-vol:/data/db -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=hunter2 --network mongo-net mongo
+docker run -d --name redis-server -p 6379:6379 --network mongo-net redis 
 
 STEP 3: Enter the following command to enter into the mongo shell with appropriate credentials
 ====================================================================================================================================
@@ -32,6 +33,8 @@ set MONGO_PORT=27017
 set MONGO_USER=test
 set MONGO_PASSWORD=hunter2
 set MONGO_DATABASE=enlightenment
+set REDIS_PORT=6379
+set REDIS_HOST=localhost
 
 STEP 6 ALTERNATIVE: Set environment variables using bash: 
 ====================================================================================================================================
