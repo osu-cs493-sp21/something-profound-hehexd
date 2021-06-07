@@ -136,7 +136,7 @@ async function deletePoemById(id){
 
     results = await collection.remove(query)
 
-    return results
+    return results[0]
 
 }
 

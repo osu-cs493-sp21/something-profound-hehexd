@@ -23,7 +23,7 @@ const {
 //Post a new poem
 router.post('/', requireAuthentication, async(req, res, next) => {
 
-    if(req.body.username == req.body.uploader){
+    if(req.username == req.body.uploader){
 
         if(validateAgainstSchema(req.body, PoemSchema)){
 
@@ -138,7 +138,7 @@ router.get('/category/:category', async(req, res, next) => {
 //Modify poem by id
 router.put('/:id', requireAuthentication, async(req, res, next) => {
 
-    if(req.body.username == req.username){
+    if(req.username === req.body.uploader){
 
         try{
 
@@ -181,7 +181,20 @@ router.delete('/:id', requireAuthentication, async(req, res, next) => {
 
         var results = await deletePoemById(req.params.id)
 
+        if(req.username === results.uploader){
+
+            
         res.status(200).send(results);
+
+        } else {
+
+
+            res.status(404).send({
+
+                error: "Attempting to access unauthorized resource"
+
+            });
+        }
 
     }catch(error){
 
