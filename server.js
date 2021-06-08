@@ -1,8 +1,12 @@
 const express = require('express');
 const morgan = require('morgan');
+const redis = require('redis'); //for using the redis client and server
 const { connectToDB } = require('./lib/mongo');
 
+
+//Two environment variables, PORT and HOST which allow us to communicate with Redis.
 const api = require('./api'); //hook to endpoints written in the api folder
+const { rateLimit } = require('./lib/redis');
 
 
 const app = express(); //using the express framework
@@ -12,7 +16,6 @@ const port = process.env.PORT || 8000; //port 8K/localhost
  * Morgan is a popular logger.
  */
 app.use(morgan('dev'));
-
 app.use(express.json());
 app.use(express.static('public'));
 

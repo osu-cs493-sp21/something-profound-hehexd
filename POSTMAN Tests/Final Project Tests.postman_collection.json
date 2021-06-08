@@ -99,7 +99,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"Anakin_Skywalker\",\r\n    \"password\": \"ihatesand69\"\r\n}",
+					"raw": "{\r\n    \"username\": \"Kenobi\",\r\n    \"password\": \"thehighground\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -129,7 +129,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"raw": "{\r\n    \"username\": \"administaarator\",\r\n    \"password\": \"adminpass\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -153,73 +153,92 @@
 			"response": []
 		},
 		{
-			"name": "Quotes Creation",
+			"name": "GET User Bio",
 			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/users/Kenobi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"Kenobi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Music",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzE3MTYsImV4cCI6MTYyMzExODExNn0.yF6zr2sPL2FcAx4i856v1XCnwHphdxmMXPySRmx7vfc",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "music",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "name",
+							"value": "amogus",
+							"type": "text"
+						},
+						{
+							"key": "caption",
+							"value": "sus LOL",
+							"type": "text"
 						}
-					}
+					]
 				},
 				"url": {
-					"raw": "http://localhost:8000/users/login/",
+					"raw": "http://localhost:8000/music",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"users",
-						"login",
-						""
+						"music"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Quotes GET ALL",
+			"name": "Update User Info",
 			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBbmFraW5fU2t5d2Fsa2VyIiwiaWF0IjoxNjIyOTQ1OTU4LCJleHAiOjE2MjMwMzIzNTh9.r88aegCzMSC538S5nSaWCjaN12xoXaWJ0EevglkzLe0",
+							"type": "string"
 						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8000/users/login/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"users",
-						"login",
-						""
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Quotes PUT",
-			"request": {
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"author\": \"aedan\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Aedan is a SEMI - cool Guy.\"\r\n}",
+					"raw": "{\r\n    \"display_name\": \"Anakin Skywalker\",\r\n    \"username\": \"Anakin_Skywalker\",\r\n    \"password\": \"ihatesand69\",\r\n    \"bio\": \"I HAVE BROUGHT PEACE, FREEDOM, JUSTICE AND SECURITY TO MY NEW EMPIRE.\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -227,7 +246,128 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/quotes/60bd53466b7d7658c8468313",
+					"raw": "http://localhost:8000/users/Anakin_Skywalker/settings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"Anakin_Skywalker",
+						"settings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE user (SELF)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzE1MTIsImV4cCI6MTYyMzExNzkxMn0.n-tCGCeviRUrxwKt8jtLyl3HWQ463mVoLlBu7CJuHpY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/users/Kenobi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"Kenobi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE user (ADMIN)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzE1MTIsImV4cCI6MTYyMzExNzkxMn0.n-tCGCeviRUrxwKt8jtLyl3HWQ463mVoLlBu7CJuHpY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/users/Kenobi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"Kenobi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DOWNLOAD Song",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/music/download/60bd80890727f5224059b900",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"music",
+						"download",
+						"60bd80890727f5224059b900"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Quote",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzI0MDYsImV4cCI6MTYyMzExODgwNn0.mU0jh9xxH3lGMYcuGI18WlePmgmh-iTSLxS5GOqf5hk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\": \"Kentaro\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Oh shit, a rat.\",\r\n    \"category\": \"Spoken Word\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/quotes/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -235,65 +375,6 @@
 					"port": "8000",
 					"path": [
 						"quotes",
-						"60bd53466b7d7658c8468313"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Quotes PUT invalid",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"author\": \"aedan\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Aedan is a SEMI - cool Guy.\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8000/quotes/60bd53466b7d7658c8468313",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"quotes",
-						"60bd53466b7d7658c8468313"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Quote by id",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8000/users/login/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"users",
-						"login",
 						""
 					]
 				}
@@ -301,13 +382,93 @@
 			"response": []
 		},
 		{
-			"name": "Quote by id invalid",
+			"name": "GET Quote by ID",
 			"request": {
-				"method": "POST",
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/quotes/60bd895ce1338450549c1de8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes",
+						"60bd895ce1338450549c1de8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Quotes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/quotes?page=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL Quotes: Last Page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/quotes?page=69",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "69"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE Quote",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzM3MDEsImV4cCI6MTYyMzEyMDEwMX0.-ovnPQtJ6hm-xok1Vx5yrG5RApyr2gF_TO1xnopfuE4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"testAdministrator\",\r\n    \"password\": \"adminpass\"\r\n}",
+					"raw": "{\r\n    \"_id\": \"60bd7316afa5d66a3762e229\",\r\n    \"author\": \"Kenobi\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"ITS OVER ANAKIN, I HAVE THE GROUND\",\r\n    \"date\": \"1/1/1000\",\r\n    \"category\": \"Outer Rim Blues.\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -315,15 +476,115 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/users/login/",
+					"raw": "http://localhost:8000/quotes/60bd7316afa5d66a3762e229",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"users",
-						"login",
+						"quotes",
+						"60bd7316afa5d66a3762e229"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Quote (Self)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzM4MDEsImV4cCI6MTYyMzEyMDIwMX0.PXG-0QNswyynoKNA0xYLF_i94eGuIUmX8mRgAVDeVXU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/quotes/Kenobi/60bd7316afa5d66a3762e229",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes",
+						"Kenobi",
+						"60bd7316afa5d66a3762e229"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Quote (ADMIN)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjIzMDM0MTc2LCJleHAiOjE2MjMxMjA1NzZ9.YnyVjgua7H1bQuHID7gwIM_yB7c5Yj59MsQ5ZnbWdJU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/quotes/Kenobi/60bd8983c58f9d93f424bdb1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quotes",
+						"Kenobi",
+						"60bd8983c58f9d93f424bdb1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST a Poem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzYxNDMsImV4cCI6MTYyMzEyMjU0M30.sJl9Qbd60FgUrL9ktIwAeSmRaDruafyaNEpZz5szV8k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\": \"Angfdsaagfds22\",\r\n    \"uploader\": \"Kenobi\",\r\n    \"text\": \"Because of Obi-Wan?\",\r\n    \"category\": \"Haiku\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/poems/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
 						""
 					]
 				}
@@ -331,42 +592,108 @@
 			"response": []
 		},
 		{
-			"name": "Quotes DELETE",
+			"name": "GET Poems (Page 1)",
 			"request": {
-				"method": "PUT",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"author\": \"aedan\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Aedan is a SEMI - cool Guy.\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://localhost:8000/quotes/60bd53466b7d7658c8468313",
+					"raw": "http://localhost:8000/poems",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"quotes",
-						"60bd53466b7d7658c8468313"
+						"poems"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Quotes DELETE an already deleted quote",
+			"name": "GET Poems (Last Page)",
 			"request": {
-				"method": "PUT",
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems?page=69",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "69"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Poem by Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems/category/Haiku",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"category",
+						"Haiku"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Poem by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems/60bd912c39e3ae8c84040c39",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"60bd912c39e3ae8c84040c39"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Poem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjIzMDM2NzYwLCJleHAiOjE2MjMxMjMxNjB9.fDmEuL0ahjys9-av5jFXWgT9yWI7eZkau45ixXUKnMk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"author\": \"aedan\",\r\n    \"username\": \"Kenobi\",\r\n    \"quote\": \"Aedan is a SEMI - cool Guy.\"\r\n}",
+					"raw": "{\r\n    \"_id\": \"60bd912c3980c39\",\r\n    \"author\": \"Anakin Skywalker\",\r\n    \"uploader\": \"Kenobi\",\r\n    \"text\": \"Because of Obi-Wan?\",\r\n    \"category\": \"Haikuuuu\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -374,15 +701,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/quotes/60bd53466b7d7658c8468313",
+					"raw": "http://localhost:8000/poems/60bd912c39e3ae8c84040c39",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"quotes",
-						"60bd53466b7d7658c8468313"
+						"poems",
+						"60bd912c39e3ae8c84040c39"
 					]
 				}
 			},

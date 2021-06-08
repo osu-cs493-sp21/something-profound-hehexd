@@ -4,35 +4,44 @@ module.exports = router;
 //const user = require('../models/user');
 const { validateAgainstSchema } = require('../lib/validation');
 const { generateAuthToken, requireAuthentication, optionalAuthentication } = require('../lib/auth');
-
+const { rateLimit } = require('../lib/redis');
 const { quotesSchema, insertQuote, getQuoteById, updateQuoteById, deleteQuoteById, getQuotesPage } = require('../models/quote');
 
 const {
     getUserByUsername,
 } = require('../models/user');
 
+router.use(rateLimit);
+
 router.post('/', requireAuthentication, async (req, res, next) => {
 	console.log("Got into Post for quotes endpoint");
 	try{
 		//const getUser = await getUserByUsername(req.username); 
-		if(req.body.username && req.body.author && req.body.quote){ //make sure all necessary elements of a quote are there
-			const id = await insertQuote(req.body); //gets the insertedId of the quote
-			console.log("ID: ", id);
-			if(id){ //make sure the new id exists
-				console.log("Quote Created with ID: ", id);
-				res.status(201).send({ //success, so send the id of the quote
-					_id: id
-				});
-			}else{ //else is a failure to insert
+		if (req.username == req.body.username) {
+			if (req.body.username && req.body.author && req.body.quote) { //make sure all necessary elements of a quote are there
+				const id = await insertQuote(req.body); //gets the insertedId of the quote
+				console.log("ID: ", id);
+				if (id) { //make sure the new id exists
+					console.log("Quote Created with ID: ", id);
+					res.status(201).send({ //success, so send the id of the quote
+						_id: id
+					});
+				} else { //else is a failure to insert
+					res.status(400).send({
+						error: "failed to insert and create the quote"
+					});
+				}
+			} else { //must provide at least the 3 necessary attributes
 				res.status(400).send({
-					error: "failed to insert and create the quote"
+					error: "Please provide username, author, and the quote."
 				});
 			}
-		}else{ //must provide at least the 3 necessary attributes
-			res.status(400).send({
-					error: "Please provide username, author, and the quote."
-			});
 		}
+		else {
+			res.status(400).send({
+				error: "You cannot post under another name"
+			});
+        }
 	} catch(err){
 		console.log("Error: ", err);
 		res.status(404).send({error: "Invalid Authentication"});
@@ -116,7 +125,7 @@ router.delete('/:username/:quoteid', requireAuthentication, async (req, res, nex
 	try{
 		if(req.username === req.params.username){ //if the username matches the JWT, then we can delete
 			const result = await deleteQuoteById(req.params.quoteid); //deletes the quote with _id = quoteid
-			if(result){
+			if(result > 0){
 				res.status(204).send();
 			} else{
 				next();

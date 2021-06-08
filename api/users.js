@@ -3,6 +3,7 @@ const router = require('express').Router();
 //const user = require('../models/user');
 const { validateAgainstSchema } = require('../lib/validation');
 const { generateAuthToken, requireAuthentication, optionalAuthentication } = require('../lib/auth');
+const { rateLimit } = require('../lib/redis');
 
 const {
     UserSchema,
@@ -15,6 +16,8 @@ const {
 } = require('../models/user');
 
 module.exports = router;
+
+router.use(rateLimit);
 
 //CREATE A USER, UNF
 router.post('/', optionalAuthentication, async (req, res, next) => {

@@ -4,6 +4,7 @@ const fs = require('fs');
 //const user = require('../models/user');
 const { validateAgainstSchema } = require('../lib/validation');
 const { requireAuthentication } = require('../lib/auth');
+const { rateLimit } = require('../lib/redis');
 
 module.exports = router;
 
@@ -17,6 +18,7 @@ const {
     downloadMusic,
     fileTypes
 } = require("../models/musicModel");
+router.use(rateLimit);
 
 const crypto = require('crypto');
 const multer = require('multer');
