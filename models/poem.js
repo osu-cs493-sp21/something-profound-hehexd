@@ -3,17 +3,21 @@ const { ObjectId } = require('mongodb');
 const { extractValidFields } = require('../lib/validation'); //use extractValidFields from the validation file in lib
 const { getDbReference } = require('../lib/mongo');
 const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const mongoosastic = require('mongoosastic');
+
 
 
 const PoemSchema = {
 
-    author: { require : true },
+    author: { required : true},
     uploader: {required : true},
     text: {required : true},
     category: {required : true},
     date: {required: false},
 
 }
+
 
 exports.PoemSchema = PoemSchema
 
@@ -99,7 +103,7 @@ async function getPoemByCategory(category){
 
     //console.log(results[0])
     
-    return results[0]
+    return results
 }
 
 exports.getPoemByCategory = getPoemByCategory;
@@ -112,15 +116,24 @@ async function updatePoemById(id, poem){
 
     updatedPoem = {$set: extractValidFields(poem , PoemSchema)}
 
-    //console.log(updatedPoem)
-    
+    //Check if the passed poem and the new poem have the same _id, if not then don't allow it to go through
+
     var query = {_id: new ObjectId(id)}
 
-    results = await collection.updateOne(query, updatedPoem, {upsert: true})
+    //Get the current database
+    poemInDatabase = getPoemById(id);
 
-    console.log(results)
+    //Check to make sure the id's match, don't allow otherwise
+    if(updatedPoem._id === poemInDatabase._id){
 
-    return results[0]
+        results = await collection.updateOne(query, updatedPoem, {upsert: true})
+
+        return results[0]
+    } else {
+
+
+        return False
+    }
 
 }
 
