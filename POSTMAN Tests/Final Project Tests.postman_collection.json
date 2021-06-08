@@ -1,10 +1,31 @@
 {
 	"info": {
-		"_postman_id": "4dab9860-9889-41e0-a623-e05f3edd2b75",
+		"_postman_id": "9ac590fa-f490-4196-8411-e183bee48c09",
 		"name": "Final Project Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Update Poem by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems/category/Comedy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"category",
+						"Comedy"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "Create Administrator (Pass)",
 			"request": {
@@ -689,6 +710,115 @@
 					"path": [
 						"poems",
 						"60bd912c39e3ae8c84040c39"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Poems",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new Poem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\" : \"Plumber Guy\",\r\n    \"uploader\" : \"DrMario\",\r\n    \"text\": \"This is some great poetry!\",\r\n    \"category\" : \"Humor\",\r\n    \"date\" : \"6/5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/poems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Poem By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems/60bd43401805da4f0078263d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"60bd43401805da4f0078263d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Poem By Id Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems/category/Comedy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"category",
+						"Comedy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Poem by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/poems/category/Comedy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"poems",
+						"category",
+						"Comedy"
 					]
 				}
 			},
