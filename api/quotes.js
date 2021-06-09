@@ -121,9 +121,21 @@ router.put('/:quoteid', requireAuthentication, async (req, res, next) => {
 
 
 router.delete('/:username/:quoteid', requireAuthentication, async (req, res, next) => {
-	
 	try{
-		if(req.username === req.params.username){ //if the username matches the JWT, then we can delete
+		const getUser = await getUserByUsername(req.username); //get the user data
+		const adminStatus = getUser.admin; 
+		console.log('adminStatus: ', adminStatus);
+
+		if(adminStatus){
+			console.log("User is an admin, so permitted to delete.");
+			const result = await deleteQuoteById(req.params.quoteid); //deletes the quote with _id = quoteid
+			if(result > 0){
+				res.status(204).send();
+			} else{
+				next();
+			}
+		}
+		else if(req.username === req.params.username){ //if the username matches the JWT, then we can delete
 			const result = await deleteQuoteById(req.params.quoteid); //deletes the quote with _id = quoteid
 			if(result > 0){
 				res.status(204).send();
