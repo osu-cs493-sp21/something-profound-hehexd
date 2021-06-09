@@ -12,6 +12,7 @@ module.exports = router;
 
 const {
     getUserByUsername,
+    getAdminStatus
 } = require('../models/user');
 
 const {
@@ -20,7 +21,8 @@ const {
     downloadMusic,
     fileTypes,
     validateSongById,
-    updateMusic
+    updateMusic,
+    deleteMusic
 } = require("../models/musicModel");
 router.use(rateLimit);
 
@@ -148,7 +150,8 @@ router.put("/update/:id", requireAuthentication, async (req, res, next) => {
         const id = req.params.id;
         if (id){
             console.log('sending:', req.body);
-            const done = await updateMusic(id, req.body);
+            const isAdmin = getAdminStatus(req.username);
+            const done = await updateMusic(id, req, isAdmin);
             if (done){
                 res.status(200).send({
                     id: id
@@ -169,6 +172,29 @@ router.put("/update/:id", requireAuthentication, async (req, res, next) => {
         console.log(error);
         res.status(500).send({
             error: "Error updating song"
+        });
+    }
+});
+
+router.delete("/delete/:id", requireAuthentication, async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (id){
+            const isAdmin = getAdminStatus(req.username);
+            const done = await deleteMusic(id, req, isAdmin);
+            if (done){
+                res.status(200).send();
+            }
+            else{
+                res.status(404).send({
+                    error: "Song ID not found"
+                });
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(404).send({
+            error: "Song ID not found"
         });
     }
 });

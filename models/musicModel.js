@@ -83,9 +83,10 @@ async function validateSongById(id) {
 
 exports.validateSongById = validateSongById;
 
-async function updateMusic(id, body){
+async function updateMusic(id, req, isAdmin){
     // note that this can only update metadata, like name and caption
     return new Promise(async (resolve, reject) => {
+        const body = req.body;
         const db = getDbReference();
         const collection = db.collection("music.files");
         collection.findOne({_id: new ObjectId(id)}, async (err, result) => {
@@ -94,31 +95,51 @@ async function updateMusic(id, body){
                 reject(err);
             }
             else{
-                const getInfo = extractValidFields(body, MusicSchema);
-                const metadata = result.metadata;
-                metadata.name = getInfo.name;
-                metadata.caption = getInfo.caption;
-                const results = await collection.updateOne({ _id: new ObjectId(id) }, {$set: {metadata: metadata, caption: null, name: null}}, { upsert: true });
-                resolve(!!results);
+                if (isAdmin || result.metadata.username == req.username){
+                    const getInfo = extractValidFields(body, MusicSchema);
+                    const metadata = result.metadata;
+                    metadata.name = getInfo.name;
+                    metadata.caption = getInfo.caption;
+                    const results = await collection.updateOne({ _id: new ObjectId(id) }, {$set: {metadata: metadata}}, { upsert: true });
+                    resolve(!!results);
+                }
+                else{
+                    resolve(false);
+                }
             }
         });
-
-        //console.log('updated version', updatedVersion);
-        //if (validateSongById(id) && collection && updatedVersion) {
-        //    updatedVersion = updatedVersion[0];
-        //    const getInfo = {$set: };
-        //    updatedVersion.metadata.name = getInfo.name;
-        //    updatedVersion.metadata.caption = getInfo.caption;
-        //    updatedVersion.caption = null;
-        //    updatedVersion.name = null;
-        //    console.log("set:", updatedVersion);
-        //    console.log("body:", body);
-        //    const results = await collection.updateOne({ _id: new ObjectId(id) }, updatedVersion, { upsert: true });
-        //    return results[0];
-        //}
-        //else{
-        //    return false;
-        //}
     });
 }
 exports.updateMusic = updateMusic;
+
+async function deleteMusic(id, req, isAdmin){
+    return new Promise(async (resolve, reject) => {
+        const body = req.body;
+        const db = getDbReference();
+        const bucket = new GridFSBucket(db, { bucketName: "music" });
+        const collection = db.collection("music.files");
+        collection.findOne({_id: new ObjectId(id)}, (err, result) => {
+            if (err){
+                console.log("YU:", err);
+                reject(err);
+            }
+            else{
+                if (isAdmin || result.metadata.username == req.username){
+                    bucket.delete(new ObjectId(id), (err, done) => {
+                        if (err){
+                            console.log(err);
+                            reject(err);
+                        }
+                        else{
+                            resolve(true);
+                        }
+                    });
+                }
+                else{
+                    resolve(false);
+                }
+            }
+        });
+    });
+}
+exports.deleteMusic = deleteMusic;
