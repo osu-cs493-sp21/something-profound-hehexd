@@ -82,12 +82,21 @@ async function getPoemById(id){
     const db = getDbReference();
 
     const collection = db.collection('poems');
-
-    results = await collection.find({_id: new ObjectId(id)}).toArray();
-
-    //console.log(results[0])
-
-    return results[0]
+    try {
+        const count = await collection.find({ _id: new ObjectId(id) }).count();
+        if (count > 0) {
+            const result = await collection.find({ _id: new ObjectId(id) }).toArray();
+            return result[0];
+            //toArray().count()
+            //return result[0] if count
+        }
+        else {
+            return false; //:(
+        }
+    }
+    catch (err) {
+        return false;
+    }
 
 }
 
@@ -99,11 +108,14 @@ async function getPoemByCategory(category){
 
     const collection = db.collection('poems');
 
-    results = await collection.find({category: category}).toArray()
-
-    //console.log(results[0])
-    
-    return results
+    results = await collection.find({ category: category }).toArray();
+    console.log("Results: ", results, results.length);
+    if (results.length) {
+        return results;
+    }
+    else {
+        return false;
+    }
 }
 
 exports.getPoemByCategory = getPoemByCategory;
@@ -139,18 +151,21 @@ async function updatePoemById(id, poem){
 
 exports.updatePoemById = updatePoemById;
 
-async function deletePoemById(id){
+async function deletePoemById(id) {
 
     const db = getDbReference();
 
     const collection = db.collection('poems');
-
-    var query = {_id: new ObjectId(id)}
-
-    results = await collection.remove(query)
-
-    return results[0]
-
+    const count = await collection.find({ _id: new ObjectId(id) }).count();
+    console.log("Count: ", count);
+    if (count > 0) {
+        var query = await collection.deleteOne({ _id: new ObjectId(id) });
+        console.log("Num deleted: ", query.deletedCount);
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 exports.deletePoemById = deletePoemById;

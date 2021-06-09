@@ -4,7 +4,7 @@ const { validateAgainstSchema } = require('../lib/validation');
 const { generateAuthToken, requireAuthentication, optionalAuthentication } = require('../lib/auth');
 const mongoose = require('mongoose');
 const mongoosastic = require('mongoosastic');
-
+const { rateLimit } = require('../lib/redis');
 
 var m_PoemSchema = new mongoose.Schema({
     
@@ -30,8 +30,10 @@ const {
     deletePoemById,
 
 } =  require('../models/poem');
-const { getAdminStatus } = require('../models/user');
+const { getAdminStatus, getUserByUsername } = require('../models/user');
 const { getDbReference } = require('../lib/mongo');
+
+router.use(rateLimit);
 
 //Post a new poem
 router.post('/', requireAuthentication, async(req, res, next) => {
@@ -51,7 +53,7 @@ router.post('/', requireAuthentication, async(req, res, next) => {
             }catch(error){
     
     
-                console.error(" -- Error", err);
+                //console.error(" -- Error", err);
     
                 res.status(500).send({
     
@@ -85,14 +87,14 @@ router.get('/', async(req, res, next) => {
 
         res.status(200).send(results)
 
-    }catch(error){
+    }
+    catch (error) {
 
-        res.status(500).json({
+        res.status(500).send({
 
             error: "Error fetching poems, try again later."
 
         });
-
         console.log(error);
 
     }
@@ -105,12 +107,18 @@ router.get('/:id', async(req, res, next) => {
     try{
 
         var results =  await getPoemById(req.params.id);
+        if (results) {
+            //console.log(results)
 
-        //console.log(results)
-
-        res.status(200).send(results);
-
-    }catch(error){
+            res.status(200).send(results);
+        }
+        else {
+            res.status(404).send({
+                error: "Could not find poem in the database."
+            });
+        }
+    }
+    catch (err) {
 
         console.error("ERROR: ", err);
 
@@ -130,9 +138,14 @@ router.get('/category/:category', async(req, res, next) => {
     try{
 
         var results =  await getPoemByCategory(req.params.category);
-
-        res.status(200).send(results);
-
+        if (results) {
+            res.status(200).send(results);
+        }
+        else {
+            res.status(404).send({
+                error: "Nothing in this category"
+            });
+        }
     }catch(error){
 
         console.error("ERROR: ", error);
@@ -192,39 +205,27 @@ router.put('/:id', requireAuthentication, async(req, res, next) => {
 router.delete('/:id', requireAuthentication, async(req, res, next) => {
 
     try{
-
-        const isAdmin = await getAdminStatus(req.username);
-        
-        if(isAdmin){
-
-            var results = await deletePoemById(req.params.id)
-
+        const getUser = await getUserByUsername(req.username);
+        //console.log("User is: ", getUser);
+        if (req.user === getUser || getAdminStatus(req.user)) {
+            const result = deletePoemById(req.params.id);
+            if (result) {
+                res.status(204).send();
+            }
+            else {
+                next();
+            }
         }
-
-        if(req.username === results.uploader){
-
-            var results = await deletePoemById(req.params.id)
-            
-            res.status(200).send(results);
-
-        } else {
-
-
+        else {
             res.status(404).send({
-
-                error: "Attempting to access unauthorized resource"
-
+                error: "Cannot delete another user's peoms"
             });
         }
-
-    }catch(error){
-
+    }
+    catch (error) {
         res.status(500).send({
-
-            error: "Error deleting user, try again later"
-            
+            error: "Error deleting poem, try again"
         });
-
     }
 
 });
