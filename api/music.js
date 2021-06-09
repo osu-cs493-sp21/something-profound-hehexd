@@ -12,6 +12,7 @@ module.exports = router;
 
 const {
     getUserByUsername,
+    getAdminStatus
 } = require('../models/user');
 
 const {
@@ -19,7 +20,9 @@ const {
     uploadMusic,
     downloadMusic,
     fileTypes,
-    validateSongById
+    validateSongById,
+    updateMusic,
+    deleteMusic
 } = require("../models/musicModel");
 router.use(rateLimit);
 
@@ -71,8 +74,15 @@ router.post("/", requireAuthentication, upload.single("music"), async (req, res,
 router.get("/download/:id", async (req, res, next) => {
     if (req.params.id){
         try {
-            await downloadMusic(req.params.id);
-            res.status(200).send();
+            const found = await downloadMusic(req.params.id);
+            if (found){
+                res.status(200).send(found);
+            }
+            else{
+                res.status(404).send({
+                    error: "Song not found"
+                });
+            }
         } catch (error) {
             console.log(error);
             res.status(500).send({
@@ -131,6 +141,60 @@ router.get("/stream/:id", async (req, res, next) => {
     else {
         res.status(400).send({
             error: "Invalid song ID"
+        });
+    }
+});
+
+router.put("/update/:id", requireAuthentication, async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        if (id){
+            console.log('sending:', req.body);
+            const isAdmin = getAdminStatus(req.username);
+            const done = await updateMusic(id, req, isAdmin);
+            if (done){
+                res.status(200).send({
+                    id: id
+                });
+            }
+            else{
+                res.status(404).send({
+                    error: "Song ID not found"
+                });
+            }
+        }
+        else{
+            res.status(400).send({
+                error: "Invalid song ID"
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: "Error updating song"
+        });
+    }
+});
+
+router.delete("/delete/:id", requireAuthentication, async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (id){
+            const isAdmin = getAdminStatus(req.username);
+            const done = await deleteMusic(id, req, isAdmin);
+            if (done){
+                res.status(200).send();
+            }
+            else{
+                res.status(404).send({
+                    error: "Song ID not found"
+                });
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(404).send({
+            error: "Song ID not found"
         });
     }
 });

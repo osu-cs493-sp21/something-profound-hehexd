@@ -53,14 +53,18 @@ async function downloadMusic(id){
             .find({ _id: new ObjectId(id) })
             .toArray();
         const info = results[0];
-
-        console.log(info._id == id, info._id, id, typeof(info._id), typeof(id));
-        const path = `./data/${info.metadata.name}.${fileTypes[info.metadata.contentType]}`;
-        resolve({
-            pipe: bucket.openDownloadStream(info._id).pipe(fs.createWriteStream(path)),
-            contentType: info.metadata.contentType,
-            path: path,
-        });
+        if (info){
+            console.log(info._id == id, info._id, id, typeof(info._id), typeof(id));
+            const path = `./data/${info.metadata.name}.${fileTypes[info.metadata.contentType]}`;
+            resolve({
+                pipe: bucket.openDownloadStream(info._id).pipe(fs.createWriteStream(path)),
+                contentType: info.metadata.contentType,
+                path: path,
+            });
+        }
+        else{
+            resolve(false);
+        }
     });
 }
 exports.downloadMusic = downloadMusic;
@@ -78,3 +82,64 @@ async function validateSongById(id) {
 }
 
 exports.validateSongById = validateSongById;
+
+async function updateMusic(id, req, isAdmin){
+    // note that this can only update metadata, like name and caption
+    return new Promise(async (resolve, reject) => {
+        const body = req.body;
+        const db = getDbReference();
+        const collection = db.collection("music.files");
+        collection.findOne({_id: new ObjectId(id)}, async (err, result) => {
+            if (err){
+                console.log(err);
+                reject(err);
+            }
+            else{
+                if (isAdmin || result.metadata.username == req.username){
+                    const getInfo = extractValidFields(body, MusicSchema);
+                    const metadata = result.metadata;
+                    metadata.name = getInfo.name;
+                    metadata.caption = getInfo.caption;
+                    const results = await collection.updateOne({ _id: new ObjectId(id) }, {$set: {metadata: metadata}}, { upsert: true });
+                    resolve(!!results);
+                }
+                else{
+                    resolve(false);
+                }
+            }
+        });
+    });
+}
+exports.updateMusic = updateMusic;
+
+async function deleteMusic(id, req, isAdmin){
+    return new Promise(async (resolve, reject) => {
+        const body = req.body;
+        const db = getDbReference();
+        const bucket = new GridFSBucket(db, { bucketName: "music" });
+        const collection = db.collection("music.files");
+        collection.findOne({_id: new ObjectId(id)}, (err, result) => {
+            if (err){
+                console.log("YU:", err);
+                reject(err);
+            }
+            else{
+                if (isAdmin || result.metadata.username == req.username){
+                    bucket.delete(new ObjectId(id), (err, done) => {
+                        if (err){
+                            console.log(err);
+                            reject(err);
+                        }
+                        else{
+                            resolve(true);
+                        }
+                    });
+                }
+                else{
+                    resolve(false);
+                }
+            }
+        });
+    });
+}
+exports.deleteMusic = deleteMusic;
