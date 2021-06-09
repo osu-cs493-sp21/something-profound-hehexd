@@ -12,14 +12,17 @@ const {
     getAdminStatus,
     getProfileByUsername,
     updateUserInformation,
-    deleteUserByUsername
+    deleteUserByUsername,
+    getPoemsByUsername,
+    getMusicByUsername,
+    getQuotesByUsername
 } = require('../models/user');
 
 module.exports = router;
 
 router.use(rateLimit);
 
-//CREATE A USER, UNF
+//CREATE A USER
 router.post('/', optionalAuthentication, async (req, res, next) => {
     if (validateAgainstSchema(req.body, UserSchema)) {
         try {
@@ -74,9 +77,9 @@ router.post('/', optionalAuthentication, async (req, res, next) => {
 });
 
 
-//LOGIN, UNFINISHED
+//login, lets the user log in with their credentials and returns a JWT
 router.post('/login', async (req, res, next) => {
-    console.log("Login endpoint called");
+    //console.log("Login endpoint called");
     //users will log in with their user name. May or may not be different from their display name. Usernames are unique but display names are not.
     if (req.body && req.body.username && req.body.password) {
         try {
@@ -174,8 +177,120 @@ router.put('/:username/settings', requireAuthentication, async (req, res, next) 
 
 
 //get poems by username
+router.get('/:username/poems', requireAuthentication, async (req, res, next) => {
+    if (req.username === req.params.username || getAdminStatus(req.username)) {
+        try {
+            const result = await getPoemsByUsername(req.params.username);
+            if (result) {
+                res.status(200).send(result);
+            }
+            else {
+                res.status(404).send({
+                    error: "Could not find any of the user's uploaded poems"
+                });
+            }
+        }
+        catch (err) {
+            res.status(500).send({
+                error: "Error retrieving poems from the database"
+            });
+        }
+    }
+    else {
+        res.status(400).send({
+            err: "Credential error"
+        });
+    }
+});
+
 //get quotes by username
+router.get('/:username/quotes', requireAuthentication, async (req, res, next) => {
+    if (req.username === req.params.username || getAdminStatus(req.username)) {
+        try {
+            const result = await getQuotesByUsername(req.params.username);
+            if (result) {
+                res.status(200).send({
+                    result
+                });
+            }
+            else {
+                res.status(404).send({
+                    error: "Could not find any of the user's uploaded quotes" //either invalid access or no quotes exist
+                });
+            }
+        }
+        catch (err) {
+            res.status(500).send({
+                error: "Error retrieving quotes from the database"
+            });
+        }
+    }
+    else {
+        res.status(400).send({
+            err: "Credential error"
+        });
+    }
+});
 //get music by username.
+router.get('/:username/music', requireAuthentication, async (req, res, next) => {
+    if (req.username === req.params.username || getAdminStatus(req.username)) {
+        try {
+            const result = await getMusicByUsername(req.params.username);
+            if (result) {
+                res.status(200).send(result);
+            }
+            else {
+                res.status(404).send({
+                    error: "Could not find any of the user's uploaded songs"
+                });
+            }
+        }
+        catch (err) {
+            res.status(500).send({
+                error: "Error retrieving songs from the database"
+            });
+        }
+    }
+    else {
+        res.status(400).send({
+            err: "Credential error"
+        });
+    }
+});
+
+//Would implement this as a youtube-style dynamic scrolling list as if you were to check the Videos tab. The three API endpoints above this one would be some
+//of the sorting categories that I would use for this overarching endpoint.
+router.get('/:username/uploads', requireAuthentication, async (req, res, next) => {
+    if (req.username === req.params.username || getAdminStatus(req.username)) {
+        try {
+            const result0 = await getMusicByUsername(req.params.username);
+            const result1 = await getQuotesByUsername(req.params.username);
+            const result2 = await getPoemsByUsername(req.params.username);
+            if (result0 || result1 || result2) {
+                res.status(200).send({
+                    Songs: result0,
+                    Quotes: result1,
+                    Poems: result2
+                })
+            }
+            else {
+                res.status(404).send({
+                    error: "Cannot find user's uploads"
+                });
+            }
+        }
+        catch (err) {
+            res.status(500).send({
+                error: "Error retrieving songs from the database"
+            });
+        }
+    }
+    else {
+        res.status(400).send({
+            err: "Credential error"
+        });
+    }
+});
 //delete user
 
 router.delete('/:username', requireAuthentication, async (req, res, next) => {
@@ -187,7 +302,6 @@ router.delete('/:username', requireAuthentication, async (req, res, next) => {
         else {
             next();
         }
-
     }
 });
 

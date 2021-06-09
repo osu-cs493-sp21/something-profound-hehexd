@@ -3,6 +3,8 @@
 const { ObjectId } = require('mongodb');
 const { extractValidFields } = require('../lib/validation'); //use extractValidFields from the validation file in lib
 const { getDbReference } = require('../lib/mongo');
+const { GridFSBucket } = require("mongodb");
+const fs = require("fs");
 const bcrypt = require('bcryptjs');
 
 //create the schema that we will use for validating the POST request to users.
@@ -139,3 +141,50 @@ async function getProfileByUsername(username) {
 }
 
 exports.getProfileByUsername = getProfileByUsername;
+
+async function getMusicByUsername(username) {
+    console.log("Checking get");
+    const db = getDbReference();
+    const bucket = new GridFSBucket(db, { bucketName: 'music' });
+    const num = await bucket.find({ "metadata.username": username }).count();
+    if (num > 0) {
+        const results = await bucket.find({ "metadata.username": username }).toArray();
+        return results;
+    }
+    else {
+        return false;
+    }
+}
+
+exports.getMusicByUsername = getMusicByUsername;
+
+async function getPoemsByUsername(username) {
+    const db = getDbReference();
+    console.log("Got here");
+    const collection = db.collection('poems');
+    const count = await collection.find({ uploader: username }).count();
+    if (count > 0) {
+        const results = await collection.find({ uploader: username }).toArray();
+        return results;
+    }
+    else {
+        return false;
+    }
+};
+
+exports.getPoemsByUsername = getPoemsByUsername;
+
+async function getQuotesByUsername(username) {
+    const db = getDbReference();
+    console.log("Got here");
+    const collection = db.collection('quotes');
+    const count = await collection.find({ username: username }).count();
+    if (count > 0) {
+        const results = await collection.find({ username: username }).toArray();
+        return results;
+    }
+    else {
+        return false;
+    }
+};
+exports.getQuotesByUsername = getQuotesByUsername;
