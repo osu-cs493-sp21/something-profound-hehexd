@@ -1,31 +1,10 @@
 {
 	"info": {
-		"_postman_id": "9ac590fa-f490-4196-8411-e183bee48c09",
+		"_postman_id": "4dab9860-9889-41e0-a623-e05f3edd2b75",
 		"name": "Final Project Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
-		{
-			"name": "Update Poem by Id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/poems/category/Comedy",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"poems",
-						"category",
-						"Comedy"
-					]
-				}
-			},
-			"response": []
-		},
 		{
 			"name": "Create Administrator (Pass)",
 			"request": {
@@ -180,7 +159,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMwMzE3MTYsImV4cCI6MTYyMzExODExNn0.yF6zr2sPL2FcAx4i856v1XCnwHphdxmMXPySRmx7vfc",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMxOTY4NzUsImV4cCI6MTYyMzI4MzI3NX0.nMvlEHxCDjDnEEAj7C0KJxRrTNVMBP5I_5y7pZy5vvE",
 							"type": "string"
 						}
 					]
@@ -193,7 +172,7 @@
 						{
 							"key": "music",
 							"type": "file",
-							"src": []
+							"src": "something-profound-hehexd/data/test one.mp3"
 						},
 						{
 							"key": "name",
@@ -716,46 +695,61 @@
 			"response": []
 		},
 		{
-			"name": "Get All Poems",
+			"name": "GET Music by Username",
 			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/poems",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"poems"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Post new Poem",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"author\" : \"Plumber Guy\",\r\n    \"uploader\" : \"DrMario\",\r\n    \"text\": \"This is some great poetry!\",\r\n    \"category\" : \"Humor\",\r\n    \"date\" : \"6/5\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBbmFraW5fU2t5d2Fsa2VyIiwiaWF0IjoxNjIzMTk3NjE4LCJleHAiOjE2MjMyODQwMTh9.zZ734fBLcXnarZwGMYVFfQ81V9O_YEMIEEf0zsOt9_c",
+							"type": "string"
 						}
-					}
+					]
 				},
+				"method": "GET",
+				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/poems",
+					"raw": "http://localhost:8000/users/Kenobi/music",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
+						"users",
+						"Kenobi",
+						"music"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Poems by Username",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBbmFraW5fU2t5d2Fsa2VyIiwiaWF0IjoxNjIzMTk3ODczLCJleHAiOjE2MjMyODQyNzN9.aAqTyFSN9lhLPZ0V9RSe_STnEL5YoBZSxhhv7IbL9N0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/users/Kenobi/poems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"Kenobi",
 						"poems"
 					]
 				}
@@ -763,62 +757,83 @@
 			"response": []
 		},
 		{
-			"name": "Get Poem By Id",
+			"name": "GET Quotes by Username",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMxOTgyNjIsImV4cCI6MTYyMzI4NDY2Mn0.FOQOpaWP4yVXAqH75MevIUJF8eUtS4HkcyLW5RQ7Fw4",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/poems/60bd43401805da4f0078263d",
+					"raw": "http://localhost:8000/users/Anakin_Skywalker/quotes",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"poems",
-						"60bd43401805da4f0078263d"
+						"users",
+						"Anakin_Skywalker",
+						"quotes"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get Poem By Id Category",
+			"name": "GET all Uploads",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJLZW5vYmkiLCJpYXQiOjE2MjMxOTg2OTksImV4cCI6MTYyMzI4NTA5OX0.y962bQsCgQGMwbs1eQl6NbyZBgubfjQ1Fm4ZvR5xuOE",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/poems/category/Comedy",
+					"raw": "http://localhost:8000/users/Kenobi/uploads",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"poems",
-						"category",
-						"Comedy"
+						"users",
+						"Kenobi",
+						"uploads"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete Poem by Id",
+			"name": "Stream Song by ID",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/poems/category/Comedy",
+					"raw": "http://localhost:8000/music/stream/60c0053661da2660e4388dce",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"poems",
-						"category",
-						"Comedy"
+						"music",
+						"stream",
+						"60c0053661da2660e4388dce"
 					]
 				}
 			},

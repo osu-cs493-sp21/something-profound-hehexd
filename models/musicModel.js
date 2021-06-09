@@ -64,3 +64,17 @@ async function downloadMusic(id){
     });
 }
 exports.downloadMusic = downloadMusic;
+
+async function validateSongById(id) {
+    const db = getDbReference();
+    const bucket = new GridFSBucket(db, { bucketName: "music" });
+    const results = await bucket.find({ _id: new ObjectId(id) }).count();
+    if (results > 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+exports.validateSongById = validateSongById;
