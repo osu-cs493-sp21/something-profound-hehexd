@@ -53,14 +53,18 @@ async function downloadMusic(id){
             .find({ _id: new ObjectId(id) })
             .toArray();
         const info = results[0];
-
-        console.log(info._id == id, info._id, id, typeof(info._id), typeof(id));
-        const path = `./data/${info.metadata.name}.${fileTypes[info.metadata.contentType]}`;
-        resolve({
-            pipe: bucket.openDownloadStream(info._id).pipe(fs.createWriteStream(path)),
-            contentType: info.metadata.contentType,
-            path: path,
-        });
+        if (info){
+            console.log(info._id == id, info._id, id, typeof(info._id), typeof(id));
+            const path = `./data/${info.metadata.name}.${fileTypes[info.metadata.contentType]}`;
+            resolve({
+                pipe: bucket.openDownloadStream(info._id).pipe(fs.createWriteStream(path)),
+                contentType: info.metadata.contentType,
+                path: path,
+            });
+        }
+        else{
+            resolve(false);
+        }
     });
 }
 exports.downloadMusic = downloadMusic;
@@ -78,3 +82,43 @@ async function validateSongById(id) {
 }
 
 exports.validateSongById = validateSongById;
+
+async function updateMusic(id, body){
+    // note that this can only update metadata, like name and caption
+    return new Promise(async (resolve, reject) => {
+        const db = getDbReference();
+        const collection = db.collection("music.files");
+        collection.findOne({_id: new ObjectId(id)}, async (err, result) => {
+            if (err){
+                console.log(err);
+                reject(err);
+            }
+            else{
+                const getInfo = extractValidFields(body, MusicSchema);
+                const metadata = result.metadata;
+                metadata.name = getInfo.name;
+                metadata.caption = getInfo.caption;
+                const results = await collection.updateOne({ _id: new ObjectId(id) }, {$set: {metadata: metadata, caption: null, name: null}}, { upsert: true });
+                resolve(!!results);
+            }
+        });
+
+        //console.log('updated version', updatedVersion);
+        //if (validateSongById(id) && collection && updatedVersion) {
+        //    updatedVersion = updatedVersion[0];
+        //    const getInfo = {$set: };
+        //    updatedVersion.metadata.name = getInfo.name;
+        //    updatedVersion.metadata.caption = getInfo.caption;
+        //    updatedVersion.caption = null;
+        //    updatedVersion.name = null;
+        //    console.log("set:", updatedVersion);
+        //    console.log("body:", body);
+        //    const results = await collection.updateOne({ _id: new ObjectId(id) }, updatedVersion, { upsert: true });
+        //    return results[0];
+        //}
+        //else{
+        //    return false;
+        //}
+    });
+}
+exports.updateMusic = updateMusic;
